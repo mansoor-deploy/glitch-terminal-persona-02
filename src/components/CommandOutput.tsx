@@ -1,5 +1,5 @@
-import React from 'react';
-import { ExternalLink, Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, Mail, Phone, MapPin, Github, Linkedin, Twitter, ChevronDown, ChevronRight } from 'lucide-react';
 
 interface CommandOutputProps {
   command: string;
@@ -8,6 +8,16 @@ interface CommandOutputProps {
 }
 
 const CommandOutput: React.FC<CommandOutputProps> = ({ command, output, timestamp }) => {
+  const [expandedProjects, setExpandedProjects] = useState<number[]>([]);
+
+  const toggleProject = (index: number) => {
+    setExpandedProjects(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
+
   const renderOutput = () => {
     const lowerCommand = command.toLowerCase().trim();
     
@@ -165,34 +175,116 @@ const CommandOutput: React.FC<CommandOutputProps> = ({ command, output, timestam
                   name: 'CyberGuard Dashboard',
                   description: 'Real-time security monitoring platform with ML-powered threat detection',
                   tech: ['React', 'Python', 'TensorFlow', 'PostgreSQL'],
-                  status: 'Production'
+                  status: 'Production',
+                  details: {
+                    overview: 'A comprehensive cybersecurity dashboard that monitors network traffic in real-time and uses machine learning algorithms to detect potential threats.',
+                    features: ['Real-time threat detection', 'ML-powered analytics', 'Custom alert system', 'Incident response automation'],
+                    challenges: 'Implementing real-time data processing while maintaining low latency and high accuracy in threat detection.',
+                    github: 'https://github.com/mansoor/cyberguard',
+                    demo: 'https://cyberguard-demo.com'
+                  }
                 },
                 {
                   name: 'SecureChat Protocol',
                   description: 'End-to-end encrypted messaging system with quantum-resistant cryptography',
                   tech: ['Node.js', 'WebRTC', 'Cryptography', 'Redis'],
-                  status: 'Beta'
+                  status: 'Beta',
+                  details: {
+                    overview: 'A next-generation messaging platform built with quantum-resistant encryption protocols to ensure future-proof security.',
+                    features: ['End-to-end encryption', 'Quantum-resistant algorithms', 'Voice/video calling', 'Self-destructing messages'],
+                    challenges: 'Balancing security with performance while implementing cutting-edge cryptographic standards.',
+                    github: 'https://github.com/mansoor/securechat',
+                    demo: 'https://securechat-beta.com'
+                  }
                 },
                 {
                   name: 'PenTest Automation Suite',
                   description: 'Automated penetration testing framework for web applications',
                   tech: ['Python', 'Docker', 'Selenium', 'OWASP'],
-                  status: 'Open Source'
+                  status: 'Open Source',
+                  details: {
+                    overview: 'An automated penetration testing framework that helps security professionals identify vulnerabilities in web applications.',
+                    features: ['Automated vulnerability scanning', 'Custom payload generation', 'Detailed reporting', 'CI/CD integration'],
+                    challenges: 'Creating comprehensive test coverage while minimizing false positives and ensuring ethical use.',
+                    github: 'https://github.com/mansoor/pentest-suite',
+                    demo: null
+                  }
                 }
               ].map((project, index) => (
                 <div key={index} className="border border-primary/20 rounded bg-card/50 p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <div className="text-primary font-semibold">{project.name}</div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => toggleProject(index)}
+                        className="text-accent hover:text-primary transition-colors p-1"
+                      >
+                        {expandedProjects.includes(index) ? (
+                          <ChevronDown size={16} />
+                        ) : (
+                          <ChevronRight size={16} />
+                        )}
+                      </button>
+                      <div className="text-primary font-semibold">{project.name}</div>
+                    </div>
                     <span className="text-xs px-2 py-1 bg-accent/20 text-accent rounded">{project.status}</span>
                   </div>
-                  <div className="text-secondary text-sm mb-2">{project.description}</div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="text-secondary text-sm mb-2 ml-6">{project.description}</div>
+                  <div className="flex flex-wrap gap-1 ml-6 mb-3">
                     {project.tech.map(tech => (
                       <span key={tech} className="text-xs px-2 py-1 bg-muted/30 text-muted-foreground rounded">
                         {tech}
                       </span>
                     ))}
                   </div>
+                  
+                  {expandedProjects.includes(index) && (
+                    <div className="ml-6 space-y-3 border-l border-primary/20 pl-4 animate-accordion-down">
+                      <div>
+                        <div className="text-accent text-sm font-medium mb-1">Overview:</div>
+                        <div className="text-secondary text-sm">{project.details.overview}</div>
+                      </div>
+                      
+                      <div>
+                        <div className="text-accent text-sm font-medium mb-1">Key Features:</div>
+                        <ul className="text-secondary text-sm space-y-1">
+                          {project.details.features.map((feature, idx) => (
+                            <li key={idx} className="flex items-center space-x-2">
+                              <span className="text-primary">•</span>
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <div className="text-accent text-sm font-medium mb-1">Technical Challenges:</div>
+                        <div className="text-secondary text-sm">{project.details.challenges}</div>
+                      </div>
+                      
+                      <div className="flex space-x-4 pt-2">
+                        <a 
+                          href={project.details.github} 
+                          className="flex items-center space-x-2 text-primary hover:text-accent transition-colors text-sm"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Github size={14} />
+                          <span>View Code</span>
+                        </a>
+                        {project.details.demo && (
+                          <a 
+                            href={project.details.demo} 
+                            className="flex items-center space-x-2 text-primary hover:text-accent transition-colors text-sm"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink size={14} />
+                            <span>Live Demo</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
