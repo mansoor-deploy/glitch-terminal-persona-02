@@ -74,7 +74,7 @@ const Index = () => {
                   MANSOOR AHMED
                 </div>
                 <div className="text-secondary text-sm md:text-base">
-                  Full Stack Developer | Cybersecurity Expert | Digital Architect
+                  Associate Research Engineer | Full Stack Developer
                 </div>
                 <div className="text-muted-foreground text-xs md:text-sm mt-2">
                   System Status: <span className="text-primary">ONLINE</span> | 

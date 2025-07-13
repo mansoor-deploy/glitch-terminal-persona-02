@@ -16,9 +16,9 @@ const Terminal: React.FC<TerminalProps> = ({ onCommandExecute, soundEnabled, set
 
   const commands = [
     'help', 'clear', 'ls', 'ls skills', 'ls projects', 'ls experience',
-    'cat about', 'cat projects', 'cat contact', 'cat resume',
-    'cd skills', 'cd projects', 'cd contact', 'cd about',
-    'whoami', 'date', 'pwd', 'echo', 'tree'
+    'cat about', 'cat projects', 'cat contact', 'cat resume','cat exeprience', 'cat education' ,"cd education", "cd experience",
+    "ls education", "ls experience ", 'cd skills', 'cd projects', 'cd contact', 'cd about',
+    'whoami', 'date', 'pwd', 'echo', 'tree' , "cd resume" , "ls resume", "cat resume"
   ];
 
   useEffect(() => {
@@ -70,6 +70,7 @@ const Terminal: React.FC<TerminalProps> = ({ onCommandExecute, soundEnabled, set
     } else {
       setSuggestions([]);
     }
+
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

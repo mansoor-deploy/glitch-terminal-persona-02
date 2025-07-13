@@ -82,7 +82,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
             </pre>
             <div className="text-center mt-4">
               <div className="text-secondary text-sm md:text-base">
-                Full Stack Developer | Cybersecurity Enthusiast | Digital Architect
+                Associate Research Engineer | Full Stack Developer 
               </div>
               <div className="text-accent text-xs md:text-sm mt-2">
                 Type 'help' to see available commands...
